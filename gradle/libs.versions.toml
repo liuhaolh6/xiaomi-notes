@@ -1,0 +1,67 @@
+# ==================================================
+# Gradle Version Catalog (版本目录)
+# 文件路径：gradle/libs.versions.toml
+# 作用：集中声明项目中所用依赖库的版本号与坐标，
+#       各模块 build.gradle.kts 通过 libs.xxx 引用，
+#       实现版本统一管理与便捷升级。
+# ==================================================
+
+# ---------- [versions] 版本号定义块 ----------
+# 在此处定义所有依赖项的数字版本号，供下方引用
+[versions]
+# Android Gradle Plugin 版本，与 Gradle 8.13 配合使用
+agp = "8.11.0"
+
+# JUnit 单元测试框架版本（用于本地 test 目录）
+junit = "4.13.2"
+
+# AndroidX Test 扩展库版本（用于 androidTest 目录）
+junitVersion = "1.1.5"
+
+# Espresso 测试框架版本（UI 自动化测试）
+espressoCore = "3.5.1"
+
+# AndroidX AppCompat 兼容库版本（提供 ActionBar、主题等向后兼容特性）
+appcompat = "1.6.1"
+
+# Material Design 组件库版本（提供 Material 风格的 UI 控件）
+material = "1.10.0"
+
+# AndroidX Activity 扩展库版本（提供 ComponentActivity 及现代 Activity API）
+activity = "1.8.0"
+
+# ConstraintLayout 约束布局版本（用于构建灵活高效的界面）
+constraintlayout = "2.1.4"
+
+
+# ---------- [libraries] 依赖库坐标声明块 ----------
+# 格式：别名 = { group = "组名", name = "库名", version.ref = "版本别名" }
+[libraries]
+# JUnit 4 单元测试库
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+
+# AndroidX 测试扩展库（提供 Android 环境下的 JUnit 运行支持）
+ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
+
+# Espresso 核心库（提供 onView、ViewAction 等 UI 测试 API）
+espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
+
+# AndroidX AppCompat 库（核心向后兼容组件）
+appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+
+# Material Design 库（Button、CardView、FloatingActionButton 等控件）
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+
+# AndroidX Activity 库（支持 Activity Result API、OnBackPressedDispatcher 等）
+activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
+
+# ConstraintLayout 库（用于创建扁平化、高性能的约束布局）
+constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
+
+
+# ---------- [plugins] 插件声明块 ----------
+# 定义 Gradle 插件的 Maven 坐标及对应版本
+[plugins]
+# Android Application 插件（用于构建 Android App 模块）
+# 在子模块中通过 alias(libs.plugins.android.application) 引用
+android-application = { id = "com.android.application", version.ref = "agp" }

@@ -1,0 +1,10 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+// 顶层构建文件，可在此处添加所有子项目/模块通用的配置选项。
+
+plugins {
+    // 引入 Android 应用插件，但此处仅声明插件依赖版本，并不直接应用到当前顶层项目
+    // alias 使用版本目录（libs）中定义的插件别名，保证插件版本统一管理
+    alias(libs.plugins.android.application) apply false
+    // apply false 表示该插件仅在此处声明，不会立即生效。
+    // 具体子模块（如 app 模块）需要在各自 build.gradle.kts 中再次引用并应用该插件。
+}

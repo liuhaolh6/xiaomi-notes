@@ -1,0 +1,91 @@
+// 引入 Android 应用插件，使用版本目录（libs）中定义的别名
+plugins {
+    alias(libs.plugins.android.application)
+}
+
+// Android 构建配置块
+android {
+    // 应用的命名空间，用于生成 R 类及 Manifest 的 package 属性
+    namespace 'net.micode.notes'
+
+    // 编译时使用的 SDK 版本，此处为 Android 14 (API 36)
+    compileSdk 36
+
+    // 默认配置，适用于所有构建变体
+    defaultConfig {
+        // 应用的唯一标识符（包名）
+        applicationId "net.micode.notes"
+
+        // 支持的最低 Android 版本，API 24 对应 Android 7.0
+        minSdk 24
+
+        // 目标 SDK 版本，应用针对该版本进行过充分测试
+        targetSdk 36
+
+        // 版本号，用于应用内升级判断（整数值）
+        versionCode 1
+
+        // 对外显示的版本名称（字符串）
+        versionName "1.0"
+
+        // 指定 AndroidJUnitRunner 作为测试运行器
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    // 构建类型配置（如 debug、release）
+    buildTypes {
+        // 正式发布版本的构建配置
+        release {
+            // 是否开启代码混淆与压缩，false 表示不启用
+            minifyEnabled false
+
+            // 指定混淆规则文件，使用默认优化配置及自定义规则
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    // Java 编译选项
+    compileOptions {
+        // 源代码兼容的 Java 版本
+        sourceCompatibility JavaVersion.VERSION_11
+        // 生成字节码兼容的 Java 版本
+        targetCompatibility JavaVersion.VERSION_11
+    }
+
+    // ========== 新增配置 1：启用旧版 Apache HTTP 库 ==========
+    // 小米便签早期版本依赖 Apache HTTP 组件，Android 6.0 起该库被移除，
+    // 通过 useLibrary 声明可继续使用系统内置的 org.apache.http.legacy 兼容库
+    useLibrary 'org.apache.http.legacy'
+
+    // ========== 新增配置 2：解决打包时文件冲突 ==========
+    // 处理第三方库中包含的重复元数据文件，避免打包 APK 时因重复文件而报错
+    packagingOptions {
+        // 排除 Apache HTTP 相关库的依赖声明文件
+        exclude 'META-INF/DEPENDENCIES'
+        // 排除库的许可证文件
+        exclude 'META-INF/LICENSE'
+        // 排除库的注意事项文件
+        exclude 'META-INF/NOTICE'
+    }
+}
+
+// 项目依赖声明
+dependencies {
+    // AndroidX 兼容库：AppCompat（向后兼容组件）、Material Design 组件、Activity 扩展、ConstraintLayout 布局
+    implementation libs.appcompat
+    implementation libs.material
+    implementation libs.activity
+    implementation libs.constraintlayout
+
+    // 单元测试依赖（本地 JVM 测试）
+    testImplementation libs.junit
+
+    // Android 设备上的仪器化测试依赖
+    androidTestImplementation libs.ext.junit
+    androidTestImplementation libs.espresso.core
+
+    // ========== 可选新增：如果 useLibrary 不够，可取消注释下面这行 ==========
+    // 若旧版小米便签代码中直接引用了较新的 Apache HttpClient 类，而系统兼容库不满足时，
+    // 可显式添加该依赖，将完整的 HttpClient 库打包进 APK
+    // implementation 'org.apache.httpcomponents:httpclient:4.5.14'
+}

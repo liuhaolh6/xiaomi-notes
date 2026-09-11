@@ -1,0 +1,47 @@
+# IntelliJ IDEA / Android Studio 项目模块配置文件，记录模块信息，不同开发者环境可能不同，应忽略
+*.iml
+
+# IDEA 项目配置目录（索引、模块配置等属于个人环境，不应共享）
+.idea/
+
+# Gradle 缓存目录，存放依赖下载缓存和构建临时文件，由 Gradle 自动生成，无需纳入版本控制
+.gradle
+
+# Android Studio 本地属性文件，包含当前机器的 SDK 路径等个性化配置，不应提交
+/local.properties
+
+# IDEA 的缓存目录，存放索引、编译缓存等，可随时重建
+/.idea/caches
+
+# IDEA 记录的外部库引用信息，本地生成，不需共享
+/.idea/libraries
+
+# IDEA 项目模块结构文件，本地配置，不同开发者模块顺序可能不同
+/.idea/modules.xml
+
+# IDEA 工作区个性化设置（窗口布局、打开文件等），属于个人偏好文件
+/.idea/workspace.xml
+
+# Android Navigation Editor 的临时配置（导航图编辑器状态）
+/.idea/navEditor.xml
+
+# Android Studio 的资源向导设置缓存
+/.idea/assetWizardSettings.xml
+
+# macOS 系统自动生成的目录属性/资源分支文件，仅用于 Finder 显示，不应提交
+.DS_Store
+
+# Gradle 构建输出目录，包含编译生成的 .class、.apk 等，完全可重新生成
+/build
+
+# Android Studio 截图/录屏保存目录（调试时自动捕获的图片/视频）
+/captures
+
+# Android NDK 构建产生的本地代码编译中间文件目录
+.externalNativeBuild
+
+# C++ 代码编译生成的临时文件目录（NDK 构建输出）
+.cxx
+
+# 同上面的 local.properties，重复出现可能是为了强调（通常保留一个即可）
+local.properties

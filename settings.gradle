@@ -1,0 +1,60 @@
+// ==================================================
+// Gradle 设置文件 (Settings File)
+// 文件路径：settings.gradle.kts
+// 作用：
+// 1. 声明插件依赖仓库，用于查找和下载 Gradle 插件（如 Android Gradle Plugin）
+// 2. 配置依赖解析策略，指定所有模块获取第三方库的远程仓库
+// 3. 定义项目名称及包含的子模块
+// ==================================================
+
+// ---------- 插件管理配置块 ----------
+// 控制 Gradle 自身构建逻辑所需的插件从何处下载
+pluginManagement {
+    repositories {
+        // Google 官方 Maven 仓库（优先）
+        google {
+            // 内容过滤：仅允许该仓库提供特定 group 的依赖，提升解析速度和安全性
+            content {
+                // 包含所有 com.android.* 分组的依赖（如 com.android.application 插件）
+                includeGroupByRegex("com\\.android.*")
+                // 包含所有 com.google.* 分组的依赖（如 com.google.gms.google-services 插件）
+                includeGroupByRegex("com\\.google.*")
+                // 包含所有 androidx.* 分组的依赖（如 androidx.navigation.safeargs 插件）
+                includeGroupByRegex("androidx.*")
+            }
+        }
+        // Maven Central 中央仓库，提供其他通用 Gradle 插件
+        mavenCentral()
+        // Gradle 官方插件门户，提供社区插件（如 kotlin-android 等）
+        gradlePluginPortal()
+    }
+}
+
+// ---------- 依赖解析管理配置块 ----------
+// 控制项目源码及依赖库（implementation/api 等）的下载来源与策略
+dependencyResolutionManagement {
+    // 设置仓库模式：FAIL_ON_PROJECT_REPOS 表示禁止子模块在自身的 build.gradle 中
+    // 通过 repositories {} 块定义仓库，强制所有模块统一使用此处声明的仓库。
+    // 此举可避免因各模块仓库不一致导致的依赖解析冲突，确保小米便签构建的可靠性。
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+
+    // 声明所有子模块共用的远程依赖仓库
+    repositories {
+        // Google Maven 仓库，提供 AndroidX、Material、Play Services 等官方库
+        google()
+        // Maven Central 仓库，提供 JUnit、Apache HttpClient 等第三方库
+        mavenCentral()
+        // 注意：此处未添加 JCenter（已废弃），符合现代 Android 项目最佳实践
+    }
+}
+
+// ---------- 项目根名称定义 ----------
+// 设置根项目的名称，在 IDE 或生成的构建产物中显示
+rootProject.name = "xianmi notes"
+// "xianmi notes" 即为小米便签的英文名称（闲米笔记）
+
+// ---------- 包含子模块 ----------
+// 声明构建过程需要包含的子项目（模块）
+// 此处仅包含一个名为 "app" 的模块，对应小米便签的主应用代码
+include ':app'
+// 若将来添加其他模块（如 common、widget），可在此继续追加 include ':模块名'

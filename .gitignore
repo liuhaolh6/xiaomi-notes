@@ -45,3 +45,21 @@
 
 # 同上面的 local.properties，重复出现可能是为了强调（通常保留一个即可）
 local.properties
+
+# Kotlin 2.x 编译增量缓存（Gradle 在项目根与模块下自动生成）
+# 这类缓存会让已删除源码的 .class 产物在测试报告中"诈尸"，
+# 表现为测试用例数远多于源码里的 @Test 数量。必须忽略。
+.kotlin/
+/app/.kotlin/
+
+# 打包产物：体积大且每次构建都可重新生成，不应进入版本控制
+*.apk
+*.aab
+/app/release/
+/app/build/
+
+# 提交信息临时文件
+COMMIT_MSG.txt
+
+# AI 编码助手配置（不纳入公开仓库）
+.clinerules
